@@ -1,7 +1,6 @@
 fastapi
 uvicorn
-tensorflow
+tensorflow==2.15.0
 librosa
 numpy
-scikit-learn
 python-multipart
