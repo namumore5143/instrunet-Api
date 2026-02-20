@@ -3,3 +3,5 @@ uvicorn==0.29.0
 tensorflow-cpu
 numpy
 pillow
+librosa
+soundfile
