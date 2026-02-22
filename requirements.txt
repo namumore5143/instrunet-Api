@@ -6,3 +6,4 @@ pillow
 librosa
 soundfile
 python-multipart
+matplotlib
