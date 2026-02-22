@@ -1,7 +1,9 @@
 import numpy as np
 import librosa
 import tensorflow as tf
-
+import matplotlib.pyplot as plt
+import base64
+import io
 IMG_SIZE = 128
 SR = 22050
 
@@ -58,3 +60,35 @@ def predict_instrument_percentages(audio_path, top_k=4):
     top = pairs[:top_k]
 
     return results, top
+
+def generate_waveform(audio_path):
+    y, sr = librosa.load(audio_path, sr=SR)
+
+    plt.figure(figsize=(8,3))
+    plt.plot(y)
+    plt.title("Waveform")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    plt.close()
+
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode()
+
+
+def generate_spectrogram(audio_path):
+    y, sr = librosa.load(audio_path, sr=SR)
+
+    mel = librosa.feature.melspectrogram(y=y, sr=sr)
+    mel_db = librosa.power_to_db(mel, ref=np.max)
+
+    plt.figure(figsize=(8,3))
+    librosa.display.specshow(mel_db, sr=sr)
+    plt.title("Spectrogram")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    plt.close()
+
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode()
